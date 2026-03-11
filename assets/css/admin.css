@@ -1,0 +1,57 @@
+/* Admin Styles */
+.webwynk-admin {
+    max-width: 1200px;
+}
+
+.wwgb-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.wwgb-status.confirmed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.wwgb-status.cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.wwgb-status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.wwgb-modal {
+    position: fixed;
+    z-index: 999999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wwgb-modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+}
+
+.wwgb-close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 28px;
+    cursor: pointer;
+}
