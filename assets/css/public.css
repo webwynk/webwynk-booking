@@ -29,56 +29,73 @@
     color: var(--wwgb-text);
 }
 
-/* Step Indicator */
+/* Step Indicator - Modernized */
 .wwgb-step-indicator {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 0;
+    gap: 15px;
     margin-bottom: 40px;
-    margin-bottom: 30px;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
+    position: relative;
+    padding: 0 10px;
 }
 
 .wwgb-step {
     display: flex;
     align-items: center;
-    flex: 1;
+    position: relative;
+    z-index: 2;
 }
 
 .wwgb-step-number {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--wwgb-dark-light);
+    border: 1px solid var(--wwgb-card-border);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
     transition: var(--wwgb-transition);
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--wwgb-text-muted);
+    position: relative;
+    backdrop-filter: blur(10px);
 }
 
 .wwgb-step.active .wwgb-step-number {
-    background: #ff512a;
-    border-color: #ff512a;
+    background: linear-gradient(135deg, var(--wwgb-accent) 0%, var(--wwgb-primary) 100%);
+    border-color: transparent;
     color: #ffffff;
-    box-shadow: 0 0 20px rgba(255, 81, 42, 0.4);
+    box-shadow: 0 0 25px rgba(255, 81, 42, 0.4);
+    transform: scale(1.1);
+}
+
+.wwgb-step.completed .wwgb-step-number {
+    background: var(--wwgb-primary);
+    color: #ffffff;
 }
 
 .wwgb-step-line {
-    flex: 1;
-    height: 2px;
+    position: absolute;
+    top: 50%;
+    left: 46px; /* Offset for step number */
+    right: -100%; /* Cover gap between steps */
+    height: 3px;
     background: rgba(255, 255, 255, 0.05);
-    margin: 0 10px;
+    transform: translateY(-50%);
+    z-index: 1;
+    border-radius: 4px;
+    width: calc(100% - 31px);
 }
 
-.wwgb-step.active + .wwgb-step .wwgb-step-line {
-    background: #ff512a;
+.wwgb-step:last-child .wwgb-step-line {
+    display: none;
+}
+
+.wwgb-step.active .wwgb-step-line {
+    background: linear-gradient(to right, var(--wwgb-accent), rgba(255, 255, 255, 0.05));
 }
 
 /* Layout */
@@ -98,9 +115,14 @@
 
 /* Left Panel - Info Card */
 .wwgb-left-panel {
-    position: sticky;
-    top: 20px;
     height: fit-content;
+}
+
+@media (min-width: 993px) {
+    .wwgb-left-panel {
+        position: sticky;
+        top: 20px;
+    }
 }
 
 .wwgb-info-card {
@@ -243,17 +265,20 @@
 }
 
 .wwgb-nav-btn {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     background: var(--wwgb-input-bg);
     border: 1px solid var(--wwgb-input-border);
     border-radius: 50%;
     color: #ffffff !important;
     cursor: pointer;
-    display: flex;
+    display: flex !important; /* Force display */
     align-items: center;
     justify-content: center;
     transition: var(--wwgb-transition);
+    padding: 0;
+    position: relative;
+    z-index: 10;
 }
 
 .wwgb-nav-btn svg {
@@ -261,11 +286,13 @@
     width: 24px !important;
     height: 24px !important;
     display: block !important;
+    pointer-events: none; /* Let clicks pass to button */
 }
 
 .wwgb-nav-btn:hover {
-    background: rgba(129, 105, 241, 0.2);
+    background: var(--wwgb-primary);
     border-color: var(--wwgb-primary);
+    box-shadow: 0 0 15px rgba(129, 105, 241, 0.3);
 }
 
 .wwgb-day-names {
