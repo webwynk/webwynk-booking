@@ -332,11 +332,26 @@
             const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             
             elements.successDetails.innerHTML = `
-                <p><strong>Name:</strong> ${data.first_name} ${data.last_name}</p>
-                <p><strong>Email:</strong> ${data.email}</p>
-                <p><strong>Date:</strong> ${dateStr}</p>
-                <p><strong>Time:</strong> ${data.display_time}</p>
-                <p><strong>Timezone:</strong> ${data.timezone}</p>
+                <div class="detail-row">
+                    <span class="label">Name</span>
+                    <span class="value">${data.first_name} ${data.last_name}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Email</span>
+                    <span class="value">${data.email}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Date</span>
+                    <span class="value">${dateStr}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Time</span>
+                    <span class="value">${data.display_time}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Timezone</span>
+                    <span class="value">${data.timezone}</span>
+                </div>
             `;
         }
     }

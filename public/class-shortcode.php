@@ -172,6 +172,7 @@ class WWGB_Shortcode {
                                 </svg>
                             </div>
                             <h2>Booking Confirmed</h2>
+                            <p class="wwgb-success-message">Your consultation has been scheduled successfully. You'll receive a confirmation email with the meeting link shortly.</p>
                             <div class="wwgb-success-details" id="success-details"></div>
                             <a href="https://webwynk.com" class="wwgb-btn-gradient">
                                 Back to Home
