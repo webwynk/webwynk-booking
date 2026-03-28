@@ -73,7 +73,6 @@
     flex: 0 0 calc(35% - 0.75rem);
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
 .wwgb-main-panel {
@@ -709,13 +708,13 @@
 }
 
 @media (max-width: 576px) {
-    .wwgb-success-details .detail-row {
+    #booking-form .wwgb-success-details .detail-row {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
     }
     
-    .wwgb-success-details .value {
+    #booking-form .wwgb-success-details .value {
         width: 100%;
         text-align: left;
         padding-left: 2rem;
