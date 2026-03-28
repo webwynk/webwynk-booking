@@ -681,6 +681,15 @@
 }
 
 @media (max-width: 768px) {
+    .webwynk-booking-container {
+        padding: 1rem;
+    }
+    .wwgb-glass-panel {
+        padding: 1.3rem;
+    }
+    #booking-form .wwgb-success-card {
+        padding: 0;
+    }
     .wwgb-container {
         flex-direction: column;
         max-width: 600px;
