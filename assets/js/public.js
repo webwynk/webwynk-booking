@@ -245,14 +245,20 @@
     }
 
     function updateSteps() {
-        document.querySelectorAll('.wwgb-step').forEach((step, index) => {
-            step.classList.toggle('active', index < state.currentStep);
-        });
-        
         document.querySelectorAll('.wwgb-step-content').forEach(content => {
             const stepNum = parseInt(content.dataset.step);
             content.classList.toggle('active', stepNum === state.currentStep);
         });
+
+        // Continuous line progress updates
+        const progressText = document.getElementById('progress-text');
+        const progressFill = document.getElementById('progress-fill');
+        if (progressText && progressFill) {
+            progressText.innerText = `STEP ${state.currentStep} OF 3`;
+            if (state.currentStep === 1) progressFill.style.width = '33.33%';
+            if (state.currentStep === 2) progressFill.style.width = '66.66%';
+            if (state.currentStep === 3) progressFill.style.width = '100%';
+        }
     }
 
     function updateSummary() {
@@ -262,7 +268,7 @@
             elements.summaryDate.textContent = date.toLocaleDateString('en-US', options);
         }
         if (elements.summaryTime && state.selectedTime) {
-            elements.summaryTime.textContent = `${state.selectedTimeDisplay} • ${state.timezone}`;
+            elements.summaryTime.textContent = `at ${state.selectedTimeDisplay} (${state.timezone})`;
         }
     }
 
