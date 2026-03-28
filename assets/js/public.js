@@ -339,24 +339,39 @@
             
             elements.successDetails.innerHTML = `
                 <div class="detail-row">
-                    <span class="label">Name</span>
+                    <span class="label">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Name
+                    </span>
                     <span class="value">${data.first_name} ${data.last_name}</span>
                 </div>
                 <div class="detail-row">
-                    <span class="label">Email</span>
+                    <span class="label">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        Email
+                    </span>
                     <span class="value">${data.email}</span>
                 </div>
                 <div class="detail-row">
-                    <span class="label">Date</span>
+                    <span class="label">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                        Date
+                    </span>
                     <span class="value">${dateStr}</span>
                 </div>
                 <div class="detail-row">
-                    <span class="label">Time</span>
+                    <span class="label">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        Time
+                    </span>
                     <span class="value">${data.display_time}</span>
                 </div>
                 <div class="detail-row">
-                    <span class="label">Timezone</span>
-                    <span class="value">${data.timezone}</span>
+                    <span class="label">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                        Timezone
+                    </span>
+                    <span class="value" style="color: var(--wwgb-highlight);">${data.timezone}</span>
                 </div>
             `;
         }

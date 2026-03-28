@@ -161,7 +161,7 @@ class WWGB_Shortcode {
                                 <!-- Details injected by JS -->
                             </div>
                             
-                            <a href="/" class="wwgb-btn-gradient" style="max-width:250px; margin: 0 auto;">
+                            <a href="/" class="wwgb-btn-gradient" style="background: var(--wwgb-primary);">
                                 Back to Home
                             </a>
                         </div>

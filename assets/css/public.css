@@ -217,7 +217,7 @@
     color: var(--wwgb-text-main);
 }
 .wwgb-day:not(.empty):not(.disabled) {
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.04);
     color: white;
 }
 .wwgb-day:hover:not(.empty):not(.disabled) {
@@ -232,9 +232,9 @@
 .wwgb-day.empty {
     background: transparent;
 }
-.wwgb-day.selected, .wwgb-day.selected:hover {
-    background: var(--wwgb-highlight);
-    color: white;
+.wwgb-day.selected, .wwgb-day.selected:hover:not(.empty):not(.disabled) {
+    background: var(--wwgb-highlight) !important;
+    color: white !important;
     box-shadow: 0 4px 15px var(--wwgb-highlight-light);
     font-weight: 600;
 }
@@ -266,7 +266,7 @@
 .wwgb-time-list::-webkit-scrollbar-thumb { background: var(--wwgb-input-border); border-radius: 4px; }
 
 .wwgb-time-slot {
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: white;
     padding: 0.75rem;
@@ -284,9 +284,9 @@
     border-color: rgba(129, 105, 241, 0.1);
 }
 .wwgb-time-slot.selected, .wwgb-time-slot.selected:hover {
-    background: var(--wwgb-highlight);
-    border-color: var(--wwgb-highlight);
-    color: white;
+    background: var(--wwgb-highlight) !important;
+    border-color: var(--wwgb-highlight) !important;
+    color: white !important;
     box-shadow: 0 4px 15px var(--wwgb-highlight-light);
 }
 
@@ -442,12 +442,23 @@
     margin-bottom: 2rem;
     text-align: left;
     width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.wwgb-success-details::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--wwgb-primary), var(--wwgb-highlight));
 }
 
 .wwgb-success-details .detail-row {
     display: flex;
     justify-content: space-between;
-    padding: 0.75rem 0;
+    align-items: center;
+    padding: 1rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -457,13 +468,20 @@
 
 .wwgb-success-details .label {
     color: var(--wwgb-text-muted);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.wwgb-success-details .label svg {
+    color: var(--wwgb-primary);
 }
 
 .wwgb-success-details .value {
     color: var(--wwgb-text-main);
-    font-weight: 500;
-    font-size: 0.9rem;
+    font-weight: 600;
+    font-size: 0.95rem;
 }
 
 .wwgb-loading {
