@@ -73,7 +73,16 @@ class WWGB_Shortcode {
                             <div class="wwgb-times">
                                 <h3 class="wwgb-time-col-header">Select Time</h3>
                                 <div class="wwgb-time-list" id="time-slots">
-                                    <p class="wwgb-select-date-first">Please select a date first</p>
+                                    <div class="wwgb-time-slot disabled">09:00 AM</div>
+                                    <div class="wwgb-time-slot disabled">09:30 AM</div>
+                                    <div class="wwgb-time-slot disabled">10:00 AM</div>
+                                    <div class="wwgb-time-slot disabled">10:30 AM</div>
+                                    <div class="wwgb-time-slot disabled">11:00 AM</div>
+                                    <div class="wwgb-time-slot disabled">11:30 AM</div>
+                                    <div class="wwgb-time-slot disabled">12:00 PM</div>
+                                    <div class="wwgb-time-slot disabled">12:30 PM</div>
+                                    <div class="wwgb-time-slot disabled">01:00 PM</div>
+                                    <div class="wwgb-time-slot disabled">01:30 PM</div>
                                 </div>
                             </div>
                         </div>
