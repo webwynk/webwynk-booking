@@ -151,8 +151,10 @@ class WWGB_Shortcode {
                     <!-- Step 3: Success -->
                     <div class="wwgb-step-content" data-step="3">
                         <div class="wwgb-success-card">
-                            <div class="wwgb-success-icon">
-                                <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            <div class="wwgb-success-icon-wrapper">
+                                <div class="wwgb-success-icon-inner">
+                                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </div>
                             </div>
                             <h2>Booking Confirmed</h2>
                             <p class="wwgb-success-message">Your consultation has been scheduled successfully. You'll receive a confirmation email with the meeting link shortly.</p>
@@ -161,7 +163,7 @@ class WWGB_Shortcode {
                                 <!-- Details injected by JS -->
                             </div>
                             
-                            <a href="/" class="wwgb-btn-gradient" style="background: var(--wwgb-primary);">
+                            <a href="/" class="wwgb-btn-gradient">
                                 Back to Home
                             </a>
                         </div>
