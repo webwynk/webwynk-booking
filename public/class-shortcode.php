@@ -11,101 +11,85 @@ class WWGB_Shortcode {
         ob_start();
         ?>
         <div id="booking-form" class="webwynk-booking-container">
-            <div class="wwgb-booking-layout">
+            <div class="wwgb-container">
                 <!-- Left Panel -->
-                <div class="wwgb-left-panel">
-                    <div class="wwgb-info-card">
-                        <h2>Book a<br>Consultation</h2>
-                        <p>Schedule a 30-minute strategy session with our expert team. We'll discuss your project requirements and provide a tailored roadmap.</p>
-                        
-                        <div class="wwgb-info-items">
-                            <div class="wwgb-info-item">
-                                <div class="wwgb-info-icon">
-                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                                    </svg>
-                                </div>
-                                <div class="wwgb-info-text">
-                                    <strong>30 Minutes</strong>
-                                    <span>Duration</span>
-                                </div>
-                            </div>
-                            <div class="wwgb-info-item">
-                                <div class="wwgb-info-icon">
-                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-                                    </svg>
-                                </div>
-                                <div class="wwgb-info-text">
-                                    <strong id="user-timezone">Asia/Calcutta</strong>
-                                    <span>Your Timezone (Auto-detected)</span>
-                                </div>
-                            </div>
+                <div class="wwgb-glass-panel wwgb-info-panel">
+                    <h2>Book a Consultation</h2>
+                    <p>Schedule a 30-minute strategy session with our expert team. We'll discuss your project requirements and provide a tailored roadmap.</p>
+                    
+                    <div class="wwgb-info-item">
+                        <div class="wwgb-info-icon">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </div>
+                        <div class="wwgb-info-text">
+                            <strong>30 Minutes</strong>
+                            <span>Duration</span>
+                        </div>
+                    </div>
+                    
+                    <div class="wwgb-info-item">
+                        <div class="wwgb-info-icon">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                        </div>
+                        <div class="wwgb-info-text">
+                            <strong id="user-timezone">Asia/Calcutta</strong>
+                            <span>Your Timezone (Auto-detected)</span>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Right Panel -->
-                <div class="wwgb-right-panel">
-                    <!-- Step Indicator Moved Here -->
-                    <div class="wwgb-progress-wrapper" style="display: flex; justify-content: center; margin-bottom: 30px;">
-                        <div class="wwgb-step-indicator" style="width: 100%; max-width: 400px; margin-bottom: 0;">
-                            <div class="wwgb-step active" data-step="1">
-                                <div class="wwgb-step-number">1</div>
-                                <div class="wwgb-step-line"></div>
-                            </div>
-                            <div class="wwgb-step" data-step="2">
-                                <div class="wwgb-step-number">2</div>
-                            </div>
+                <!-- Right Panel (Wizard) -->
+                <div class="wwgb-glass-panel wwgb-main-panel">
+                    
+                    <!-- NEW PROGRESS BAR -->
+                    <div class="wwgb-progress-wrapper">
+                        <div class="wwgb-progress-text" id="progress-text">STEP 1 OF 3</div>
+                        <div class="wwgb-progress-bar-bg">
+                            <div class="wwgb-progress-bar-fill" id="progress-fill"></div>
                         </div>
                     </div>
+
                     <!-- Step 1: Date & Time -->
                     <div class="wwgb-step-content active" data-step="1">
-                        <div class="wwgb-datetime-layout">
-                            <div class="wwgb-calendar-section">
+                        <div class="wwgb-datetime-grid">
+                            
+                            <div class="wwgb-calendar">
                                 <div class="wwgb-calendar-header">
                                     <button class="wwgb-nav-btn" id="prev-month">
-                                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                                            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-                                        </svg>
+                                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
                                     </button>
-                                    <h3 id="current-month">March 2026</h3>
+                                    <h3 id="current-month" style="margin:0; font-size:1rem; font-weight:600; color:white;">March 2026</h3>
                                     <button class="wwgb-nav-btn" id="next-month">
-                                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                                        </svg>
+                                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
                                     </button>
                                 </div>
                                 
-                                <div class="wwgb-calendar-grid">
-                                    <div class="wwgb-day-names">
-                                        <span>SU</span><span>MO</span><span>TU</span><span>WE</span>
-                                        <span>TH</span><span>FR</span><span>SA</span>
-                                    </div>
-                                    <div class="wwgb-days" id="calendar-days"></div>
+                                <div class="wwgb-day-names">
+                                    <span>SU</span><span>MO</span><span>TU</span><span>WE</span><span>TH</span><span>FR</span><span>SA</span>
                                 </div>
+                                <div class="wwgb-days" id="calendar-days"></div>
                             </div>
                             
-                            <div class="wwgb-time-section">
-                                <h3>Select Time</h3>
-                                <div class="wwgb-time-slots" id="time-slots">
+                            <div class="wwgb-times">
+                                <h3 class="wwgb-time-col-header">Select Time</h3>
+                                <div class="wwgb-time-list" id="time-slots">
                                     <p class="wwgb-select-date-first">Please select a date first</p>
                                 </div>
                             </div>
                         </div>
                         
-                        <button class="wwgb-btn-gradient" id="btn-step-2" disabled>
-                            Next Step →
-                        </button>
+                        <div class="wwgb-btn-wrapper">
+                            <button class="wwgb-btn-gradient" id="btn-step-2" disabled>
+                                Next Step
+                            </button>
+                        </div>
                     </div>
                     
-                    <!-- Step 2: Your Details -->
+                    <!-- Step 2: Details -->
                     <div class="wwgb-step-content" data-step="2">
-                        <button class="wwgb-back-btn" id="back-to-step-1">
-                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-                            </svg>
-                            Your Details
+                        
+                        <button class="wwgb-back-btn" id="back-to-step-1" type="button">
+                            &larr; Your Details
                         </button>
                         
                         <form id="booking-form-submit">
@@ -140,45 +124,49 @@ class WWGB_Shortcode {
                                 </div>
                             </div>
                             
-                            <div class="wwgb-form-group">
+                            <div class="wwgb-form-group wwgb-full-width">
                                 <label>Message (<?php echo get_option('wwgb_message_required') ? 'Required' : 'Optional'; ?>)</label>
-                                <textarea name="message" rows="4" placeholder="Tell us about your project..." <?php echo get_option('wwgb_message_required') ? 'required' : ''; ?>></textarea>
+                                <textarea name="message" rows="3" placeholder="Tell us about your project..." <?php echo get_option('wwgb_message_required') ? 'required' : ''; ?>></textarea>
                             </div>
                             
                             <div class="wwgb-booking-summary">
                                 <div class="wwgb-summary-content">
-                                    <strong id="summary-date">Thursday, March 26th, 2026</strong>
-                                    <span id="summary-time">15:00 • Asia/Calcutta</span>
+                                    <h4 id="summary-date">Thursday, March 26th, 2026</h4>
+                                    <p id="summary-time">at 15:00 (Asia/Calcutta)</p>
                                 </div>
-                                <div class="wwgb-summary-check">
-                                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                                    </svg>
+                                <div class="wwgb-summary-right">
+                                    <h4>Free</h4>
+                                    <p>30 Minutes</p>
                                 </div>
                             </div>
                             
-                            <button type="submit" class="wwgb-btn-gradient">
-                                Confirm Booking
-                            </button>
+                            <div class="wwgb-btn-wrapper">
+                                <button type="submit" class="wwgb-btn-gradient">
+                                    Confirm Booking
+                                </button>
+                            </div>
                         </form>
                     </div>
                     
-                    <!-- Success Screen -->
+                    <!-- Step 3: Success -->
                     <div class="wwgb-step-content" data-step="3">
                         <div class="wwgb-success-card">
                             <div class="wwgb-success-icon">
-                                <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
-                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                                </svg>
+                                <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                             </div>
                             <h2>Booking Confirmed</h2>
                             <p class="wwgb-success-message">Your consultation has been scheduled successfully. You'll receive a confirmation email with the meeting link shortly.</p>
-                            <div class="wwgb-success-details" id="success-details"></div>
-                            <a href="https://webwynk.com" class="wwgb-btn-gradient">
+                            
+                            <div class="wwgb-success-details" id="success-details">
+                                <!-- Details injected by JS -->
+                            </div>
+                            
+                            <a href="/" class="wwgb-btn-gradient" style="max-width:250px; margin: 0 auto;">
                                 Back to Home
                             </a>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
