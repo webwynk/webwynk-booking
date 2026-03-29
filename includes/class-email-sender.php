@@ -57,12 +57,10 @@ class WWGB_Email_Sender
       $message = nl2br($message);
     }
 
-    $from_name  = get_bloginfo('name');
-    $from_email = get_option('wwgb_admin_email', get_option('admin_email'));
-    $headers = array(
-      'Content-Type: text/html; charset=UTF-8',
-      'From: ' . $from_name . ' <' . $from_email . '>',
-    );
+    // Note: Do NOT set a custom From: header here.
+    // WP Mail SMTP (Gmail) requires From to match the authenticated account.
+    // Let WP Mail SMTP control the From address automatically.
+    $headers = array('Content-Type: text/html; charset=UTF-8');
 
     return wp_mail($booking->email, $subject, $message, $headers);
   }
@@ -155,12 +153,9 @@ class WWGB_Email_Sender
       $message = nl2br($message);
     }
 
-    $from_name  = get_bloginfo('name');
-    $from_email = get_option('wwgb_admin_email', get_option('admin_email'));
-    $headers = array(
-      'Content-Type: text/html; charset=UTF-8',
-      'From: ' . $from_name . ' <' . $from_email . '>',
-    );
+    // Note: Do NOT set a custom From: header here.
+    // WP Mail SMTP (Gmail) requires From to match the authenticated account.
+    $headers = array('Content-Type: text/html; charset=UTF-8');
 
     return wp_mail($admin_email, $subject, $message, $headers);
   }
