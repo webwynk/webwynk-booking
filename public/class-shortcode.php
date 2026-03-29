@@ -122,11 +122,21 @@ class WWGB_Shortcode {
                                     <label>Phone</label>
                                     <div class="wwgb-phone-input">
                                         <select name="country_code" class="wwgb-country-select">
-                                            <option value="+91">IN +91</option>
                                             <option value="+1">US +1</option>
+                                            <option value="+1">CA +1</option>
                                             <option value="+44">UK +44</option>
                                             <option value="+61">AU +61</option>
+                                            <option value="+91">IN +91</option>
                                             <option value="+971">AE +971</option>
+                                            <option value="+92">PK +92</option>
+                                            <option value="+880">BD +880</option>
+                                            <option value="+972">IL +972</option>
+                                            <option value="+49">DE +49</option>
+                                            <option value="+33">FR +33</option>
+                                            <option value="+81">JP +81</option>
+                                            <option value="+65">SG +65</option>
+                                            <option value="+64">NZ +64</option>
+                                            <option value="+27">ZA +27</option>
                                         </select>
                                         <input type="tel" name="phone" required placeholder="(555) 000-0000">
                                     </div>

@@ -36,8 +36,30 @@
     // Initialize
     function init() {
         detectTimezone();
+        detectCountryCode();
         renderCalendar();
         bindEvents();
+    }
+
+    // Detect country code based on IP
+    function detectCountryCode() {
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.country_calling_code) {
+                    const countrySelect = document.querySelector('select[name="country_code"]');
+                    if (countrySelect) {
+                        const code = data.country_calling_code;
+                        const optionMatch = Array.from(countrySelect.options).find(opt => 
+                            opt.value === code || opt.value === '+' + code.replace('+', '')
+                        );
+                        if (optionMatch) {
+                            countrySelect.value = optionMatch.value;
+                        }
+                    }
+                }
+            })
+            .catch(e => console.warn('Could not detect country code:', e));
     }
 
     // Detect timezone
