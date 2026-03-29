@@ -47,18 +47,29 @@
         fetch('https://ipapi.co/json/')
             .then(response => response.json())
             .then(data => {
-                if (data && data.country) {
-                    const countryIso = data.country;
-                    const code = data.country_calling_code;
-                    const optionsPanel = document.getElementById('wwgb-country-options');
-                    if (optionsPanel) {
-                        const option = optionsPanel.querySelector(`.wwgb-custom-option[data-country="${countryIso}"]`);
-                        if (option) {
-                            option.click();
-                        } else if (code) {
-                            const fallback = optionsPanel.querySelector(`.wwgb-custom-option[data-value="${code}"]`) || 
-                                          optionsPanel.querySelector(`.wwgb-custom-option[data-value="+${code.replace('+','')}"]`);
-                            if (fallback) fallback.click();
+                if (data) {
+                    // Force timezone to match IP geolocation
+                    if (data.timezone) {
+                        state.timezone = data.timezone;
+                        const tzDisplay = document.getElementById('user-timezone');
+                        if (tzDisplay) {
+                            tzDisplay.textContent = data.timezone.replace('_', ' ');
+                        }
+                    }
+
+                    if (data.country) {
+                        const countryIso = data.country;
+                        const code = data.country_calling_code;
+                        const optionsPanel = document.getElementById('wwgb-country-options');
+                        if (optionsPanel) {
+                            const option = optionsPanel.querySelector(`.wwgb-custom-option[data-country="${countryIso}"]`);
+                            if (option) {
+                                option.click();
+                            } else if (code) {
+                                const fallback = optionsPanel.querySelector(`.wwgb-custom-option[data-value="${code}"]`) || 
+                                              optionsPanel.querySelector(`.wwgb-custom-option[data-value="+${code.replace('+','')}"]`);
+                                if (fallback) fallback.click();
+                            }
                         }
                     }
                 }
