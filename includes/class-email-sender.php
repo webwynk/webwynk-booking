@@ -21,7 +21,7 @@ class WWGB_Email_Sender {
         $subject = get_option('wwgb_user_email_subject', 'Your Consultation is Confirmed - WebWynk');
         $template = get_option('wwgb_user_email_template', $this->get_default_user_template());
         
-        // Convert IST source-of-truth back to Client's local time for their confirmation email
+        // Read precisely the explicitly-vetted local time that was booked directly by the customer's calendar
         $agency_tz = new DateTimeZone('Asia/Kolkata');
         $client_tz_string = !empty($booking->timezone) ? $booking->timezone : 'Asia/Kolkata';
         
@@ -31,8 +31,8 @@ class WWGB_Email_Sender {
             $client_tz = $agency_tz;
         }
         
-        $booking_datetime = new DateTime($booking->booking_date . ' ' . $booking->booking_time, $agency_tz);
-        $booking_datetime->setTimezone($client_tz);
+        // Treat as pure local time
+        $booking_datetime = new DateTime($booking->booking_date . ' ' . $booking->booking_time, $client_tz);
 
         $placeholders = array(
             '{first_name}' => $booking->first_name,
@@ -69,7 +69,11 @@ class WWGB_Email_Sender {
         
         // Admin always receives time in IST because Agency is in India
         $agency_tz = new DateTimeZone('Asia/Kolkata');
-        $booking_datetime = new DateTime($booking->booking_date . ' ' . $booking->booking_time, $agency_tz);
+        
+        $ist_date = (!empty($booking->ist_date) && $booking->ist_date !== '0000-00-00') ? $booking->ist_date : $booking->booking_date;
+        $ist_time = !empty($booking->ist_time) ? $booking->ist_time : $booking->booking_time;
+        
+        $booking_datetime = new DateTime($ist_date . ' ' . $ist_time, $agency_tz);
 
         $placeholders = array(
             '{first_name}' => $booking->first_name,
