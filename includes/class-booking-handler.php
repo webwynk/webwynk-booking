@@ -109,6 +109,15 @@ class WWGB_Booking_Handler {
         $slot_duration = get_option('wwgb_slot_duration', 30);
         $agency_timezone = new DateTimeZone('Asia/Kolkata');
         
+        $slots = array();
+
+        $working_days = get_option('wwgb_working_days', array('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'));
+        $day_name = strtolower(date('D', strtotime($date)));
+        
+        if (!in_array($day_name, $working_days)) {
+            return $slots;
+        }
+        
         try {
             $client_tz = new DateTimeZone($user_timezone);
         } catch (Exception $e) {

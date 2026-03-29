@@ -237,15 +237,18 @@
             const dateStr = formatDate(date);
             const isPast = date < new Date(today.setHours(0, 0, 0, 0));
             const isSelected = state.selectedDate === dateStr;
+            const dayName = date.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
+            const isWorkingDay = wwgb_ajax.working_days ? wwgb_ajax.working_days.includes(dayName) : true;
+            
             let className = 'wwgb-day';
-            if (isPast) {
+            if (isPast || !isWorkingDay) {
                 className += ' disabled';
             }
             if (isSelected) {
                 className += ' selected';
             }
             
-            if (!isPast) {
+            if (!isPast && isWorkingDay) {
                 html += `<div class="${className}" data-date="${dateStr}">${day}</div>`;
             } else {
                 html += `<div class="${className}">${day}</div>`;

@@ -110,9 +110,11 @@ class WebWynk_Booking {
             true
         );
         
+        $working_days = get_option('wwgb_working_days', array('mon', 'tue', 'wed', 'thu', 'fri', 'sat'));
         wp_localize_script('webwynk-booking', 'wwgb_ajax', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce'    => wp_create_nonce('wwgb_nonce'),
+            'working_days' => $working_days
         ));
     }
     
