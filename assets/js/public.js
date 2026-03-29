@@ -237,18 +237,15 @@
             const dateStr = formatDate(date);
             const isPast = date < new Date(today.setHours(0, 0, 0, 0));
             const isSelected = state.selectedDate === dateStr;
-            const dayName = date.toLocaleDateString('en-US', { weekday: 'short' }).toLowerCase();
-            const isWeekend = dayName === 'sun';
-            
             let className = 'wwgb-day';
-            if (isPast || isWeekend) {
+            if (isPast) {
                 className += ' disabled';
             }
             if (isSelected) {
                 className += ' selected';
             }
             
-            if (!isPast && !isWeekend) {
+            if (!isPast) {
                 html += `<div class="${className}" data-date="${dateStr}">${day}</div>`;
             } else {
                 html += `<div class="${className}">${day}</div>`;
