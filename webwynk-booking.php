@@ -72,6 +72,7 @@ class WebWynk_Booking {
         add_action('wp_ajax_wwgb_update_booking_status', array($admin, 'ajax_update_status'));
         add_action('wp_ajax_wwgb_delete_booking', array($admin, 'ajax_delete_booking'));
         add_action('wp_ajax_wwgb_get_booking_details', array($admin, 'ajax_get_booking_details'));
+        add_action('wp_ajax_wwgb_save_meeting_link', array($admin, 'ajax_save_meeting_link'));
     }
     
     private function define_public_hooks() {

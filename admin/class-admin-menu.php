@@ -194,6 +194,8 @@ class WWGB_Admin_Menu {
             update_option('wwgb_user_email_template', wp_unslash($_POST['user_email_template']));
             update_option('wwgb_admin_email_subject', sanitize_text_field($_POST['admin_email_subject']));
             update_option('wwgb_admin_email_template', wp_unslash($_POST['admin_email_template']));
+            update_option('wwgb_meeting_email_subject', sanitize_text_field($_POST['meeting_email_subject']));
+            update_option('wwgb_meeting_email_template', wp_unslash($_POST['meeting_email_template']));
             echo '<div class="notice notice-success"><p>Email templates saved!</p></div>';
         }
         ?>
@@ -236,6 +238,27 @@ class WWGB_Admin_Menu {
                             <textarea name="admin_email_template" rows="10" class="large-text"><?php echo esc_textarea(get_option('wwgb_admin_email_template')); ?></textarea>
                             <p class="description">
                                 Available placeholders: {first_name}, {last_name}, {date}, {time}, {timezone}, {phone}, {message}, {email}
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                
+                <hr>
+                
+                <h2><?php _e('Meeting Link Email', 'webwynk-booking'); ?></h2>
+                <table class="form-table">
+                    <tr>
+                        <th><?php _e('Subject', 'webwynk-booking'); ?></th>
+                        <td>
+                            <input type="text" name="meeting_email_subject" value="<?php echo esc_attr(get_option('wwgb_meeting_email_subject', 'Your Meeting Link is Ready - WebWynk')); ?>" class="regular-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Template', 'webwynk-booking'); ?></th>
+                        <td>
+                            <textarea name="meeting_email_template" rows="10" class="large-text"><?php echo esc_textarea(get_option('wwgb_meeting_email_template')); ?></textarea>
+                            <p class="description">
+                                Available placeholders: {first_name}, {last_name}, {date}, {time}, {timezone}, {phone}, {message}, {email}, <strong>{meeting_link}</strong>
                             </p>
                         </td>
                     </tr>
@@ -314,6 +337,41 @@ class WWGB_Admin_Menu {
             wp_send_json_success($booking);
         } else {
             wp_send_json_error('Booking not found');
+        }
+    }
+
+    public function ajax_save_meeting_link() {
+        check_ajax_referer('wwgb_admin_nonce', 'nonce');
+        
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('Unauthorized');
+        }
+        
+        $id = intval($_POST['booking_id']);
+        $meeting_link = esc_url_raw($_POST['meeting_link']);
+        
+        if (empty($meeting_link)) {
+            wp_send_json_error('Link cannot be empty');
+        }
+        
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'webwynk_bookings';
+        
+        $result = $wpdb->update(
+            $table_name,
+            array('meeting_link' => $meeting_link),
+            array('id' => $id),
+            array('%s'),
+            array('%d')
+        );
+        
+        if ($result !== false) {
+            // Trigger the meeting link email
+            $email_sender = new WWGB_Email_Sender();
+            $email_sender->send_meeting_link($id);
+            wp_send_json_success('Meeting link saved and email sent');
+        } else {
+            wp_send_json_error('Failed to save meeting link');
         }
     }
 }

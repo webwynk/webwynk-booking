@@ -33,6 +33,7 @@ class WWGB_Database {
             ist_date date DEFAULT NULL,
             ist_time time DEFAULT NULL,
             timezone varchar(100) DEFAULT 'Asia/Kolkata',
+            meeting_link varchar(255) DEFAULT NULL,
             status varchar(20) DEFAULT 'confirmed',
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (id),

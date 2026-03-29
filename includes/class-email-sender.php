@@ -62,6 +62,45 @@ class WWGB_Email_Sender
     return wp_mail($booking->email, $subject, $message, $headers);
   }
 
+  public function send_meeting_link($booking_id)
+  {
+    $handler = new WWGB_Booking_Handler();
+    $booking = $handler->get_booking($booking_id);
+    
+    if (!$booking || empty($booking->meeting_link)) return false;
+    
+    $subject = get_option('wwgb_meeting_email_subject', 'Your Meeting Link is Ready - WebWynk');
+    
+    $template = get_option('wwgb_meeting_email_template', $this->get_default_meeting_email_template());
+    
+    // Format the client's local time explicitly
+    $client_tz_string = $booking->timezone ? $booking->timezone : 'Asia/Kolkata';
+    $client_tz = new DateTimeZone($client_tz_string);
+    $booking_datetime = new DateTime($booking->booking_date . ' ' . $booking->booking_time, $client_tz);
+    
+    $placeholders = array(
+        '{first_name}' => $booking->first_name,
+        '{last_name}' => $booking->last_name,
+        '{date}' => $booking_datetime->format('l, F j, Y'),
+        '{time}' => $booking_datetime->format('g:i A'),
+        '{timezone}' => $client_tz_string,
+        '{phone}' => $booking->phone,
+        '{message}' => $booking->message,
+        '{email}' => $booking->email,
+        '{meeting_link}' => '<a href="' . esc_url($booking->meeting_link) . '" style="color:#8169F1;">' . esc_html($booking->meeting_link) . '</a>'
+    );
+    
+    $message = str_replace(array_keys($placeholders), array_values($placeholders), $template);
+    
+    if (strip_tags($message) == $message) {
+        $message = nl2br($message);
+    }
+    
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    
+    return wp_mail($booking->email, $subject, $message, $headers);
+  }
+
   public function send_admin_notification($booking_id)
   {
     global $wpdb;
@@ -210,5 +249,98 @@ class WWGB_Email_Sender
 📝 Message: {message}
 
 Login to view all bookings.";
+  }
+
+  private function get_default_meeting_email_template()
+  {
+    return '<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="margin:0; padding:0; background-color:#f5f6fb; font-family:Arial, sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f6fb;">
+<tr>
+<td align="center">
+
+<table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color:#ffffff;">
+
+  <!-- Header -->
+  <tr>
+    <td align="center" style="background-color:#efebfc; padding:25px;">
+      <img src="https://webwynk.webwynk.com/wp-content/uploads/2026/03/webwynk-logo-email.jpg"
+           alt="WebWynk"
+           width="140"
+           style="display:block; border:0;">
+    </td>
+  </tr>
+
+  <!-- Body -->
+  <tr>
+    <td style="padding:25px; color:#333333; font-size:15px; line-height:1.6;">
+
+      <p style="margin:0 0 10px 0;">Hi {first_name},</p>
+
+      <p style="margin:0 0 10px 0;">
+        We’re excited to connect with you.
+      </p>
+
+      <p style="margin:0 0 10px 0;">
+        Please find your consultation details below:
+      </p>
+
+      <p style="margin:0 0 10px 0;">
+        🔗 Meeting Link: {meeting_link}<br>
+        📅 Date: {date}<br>
+        ⏰ Time: {time}<br>
+        🌍 Timezone: {timezone}
+      </p>
+
+      <p style="margin:0 0 10px 0;">
+        Kindly ensure you join on time so we can make the most of your session.
+      </p>
+
+      <p style="margin:0 0 15px 0;">
+        If you need any assistance beforehand, feel free to reply to this email.
+      </p>
+
+      <p style="margin:15px 0 0 0;">
+        Warm regards,<br>
+        <strong style="color:#8169F1;">WebWynk Team</strong>
+      </p>
+
+    </td>
+  </tr>
+
+  <!-- Footer -->
+  <tr>
+    <td align="center" style="background-color:#110645; padding:15px; font-size:13px; color:#ffffff;">
+
+      <p style="margin:5px 0; color:#ffffff;">Connect With Us</p>
+
+      <p style="margin:5px 0;">
+        <a href="https://wa.me/919083895364" style="color:#8169F1; text-decoration:none;">WhatsApp</a> |
+        <a href="mailto:contact@webwynk.com" style="color:#8169F1; text-decoration:none;">Email</a> |
+        <a href="https://webwynk.com" style="color:#8169F1; text-decoration:none;">Website</a>
+      </p>
+
+      <p style="margin-top:10px; font-size:12px; color:#ffffff;">
+        © 2026 WebWynk. All rights reserved.
+      </p>
+
+    </td>
+  </tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>';
   }
 }
