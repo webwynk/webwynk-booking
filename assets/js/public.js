@@ -520,6 +520,82 @@
                     <span class="value" style="color: var(--wwgb-highlight);">${data.timezone}</span>
                 </div>
             `;
+
+            // Setup Calendar Links
+            setupCalendarLinks(data);
+        }
+    }
+
+    function setupCalendarLinks(data) {
+        const btnAdd = document.getElementById('btn-add-calendar');
+        const menu = document.getElementById('calendar-menu');
+        const googleLink = document.getElementById('cal-google');
+        const icsLink = document.getElementById('cal-ics');
+
+        if (!btnAdd || !menu) return;
+
+        btnAdd.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menu.classList.toggle('hidden');
+        });
+
+        // Close menu on click outside
+        document.addEventListener('click', () => {
+            menu.classList.add('hidden');
+        });
+
+        // Parse times from the state payload (local_time|local_date|ist_time|ist_date)
+        const parts = state.selectedTime.split('|');
+        const istTime = parts[2];
+        const istDate = parts[3];
+        
+        // IST is UTC+5:30. Create a reference date and get UTC versions for the links.
+        const start = new Date(`${istDate}T${istTime}:00+05:30`);
+        const end = new Date(start.getTime() + 30 * 60000); // 30-min duration
+
+        const formatUTC = (d) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+        const startUTC = formatUTC(start);
+        const endUTC = formatUTC(end);
+
+        const title = encodeURIComponent('Strategy Session with WebWynk');
+        const details = encodeURIComponent(`Consultation booking confirmed for ${data.first_name} ${data.last_name}.\nEmail: ${data.email}\nTimezone: ${data.timezone}`);
+        const location = encodeURIComponent('Virtual / Google Meet');
+
+        // Google Link
+        if (googleLink) {
+            googleLink.href = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startUTC}/${endUTC}&details=${details}&location=${location}&sf=true&output=xml`;
+        }
+
+        // ICS File Generation
+        if (icsLink) {
+            icsLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                const icsContent = [
+                    'BEGIN:VCALENDAR',
+                    'VERSION:2.0',
+                    'PRODID:-//WebWynk//Booking Plugin//EN',
+                    'BEGIN:VEVENT',
+                    `UID:${Date.now()}@webwynk.com`,
+                    `DTSTAMP:${startUTC}`,
+                    `DTSTART:${startUTC}`,
+                    `DTEND:${endUTC}`,
+                    `SUMMARY:Strategy Session with WebWynk`,
+                    `DESCRIPTION:Consultation booking confirmed for ${data.first_name} ${data.last_name}. Email: ${data.email}`,
+                    `LOCATION:Virtual / Google Meet`,
+                    'END:VEVENT',
+                    'END:VCALENDAR'
+                ].join('\r\n');
+
+                const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'webwynk-booking.ics';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            });
         }
     }
 

@@ -741,6 +741,96 @@
     font-size: 0.9rem;
 }
 
+/* Button Group & Add to Calendar */
+.wwgb-btn-group {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.wwgb-btn-outline {
+    display: flex;
+    flex: 1;
+    padding: 0.9rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--wwgb-glass-border);
+    border-radius: 10px;
+    color: var(--wwgb-text-main) !important;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.wwgb-btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--wwgb-primary);
+    transform: translateY(-2px);
+}
+
+.wwgb-calendar-dropdown {
+    position: relative;
+    flex: 1.5;
+}
+
+.wwgb-calendar-dropdown .wwgb-btn-gradient {
+    width: 100%;
+    box-shadow: 0 4px 15px var(--wwgb-primary-light);
+}
+
+.wwgb-dropdown-menu {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 0;
+    right: 0;
+    background: #1a1e2e; /* dark bg to pop against the glass */
+    border: 1px solid var(--wwgb-glass-border);
+    border-radius: 12px;
+    padding: 0.6rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    animation: wwgb-slide-up 0.3s ease;
+}
+
+.wwgb-dropdown-menu.hidden {
+    display: none;
+}
+
+.wwgb-dropdown-menu a {
+    padding: 0.85rem 1rem;
+    color: var(--wwgb-text-main) !important;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    text-align: left;
+    display: block;
+}
+
+.wwgb-dropdown-menu a:hover {
+    background: rgba(129, 105, 241, 0.2);
+    color: var(--wwgb-highlight) !important;
+}
+
+@keyframes wwgb-slide-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 576px) {
+    .wwgb-btn-group {
+        flex-direction: column;
+    }
+}
+
 /* Responsive */
 @media (max-width: 950px) {
     .wwgb-datetime-grid {
