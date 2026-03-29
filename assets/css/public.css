@@ -747,12 +747,14 @@
     gap: 1rem;
     width: 100%;
     margin-top: 1rem;
+    align-items: stretch; /* Stretch to match heights naturally */
 }
 
 .wwgb-btn-outline {
     display: flex;
     flex: 1;
-    padding: 0.9rem;
+    height: 50px; /* Force consistent height */
+    padding: 0 1rem;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--wwgb-glass-border);
     border-radius: 10px;
@@ -774,11 +776,17 @@
 .wwgb-calendar-dropdown {
     position: relative;
     flex: 1.5;
+    display: flex; /* Ensure dropdown container also respects height */
 }
 
 .wwgb-calendar-dropdown .wwgb-btn-gradient {
     width: 100%;
+    height: 50px; /* Match height precisely */
+    padding: 0 1rem;
     box-shadow: 0 4px 15px var(--wwgb-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .wwgb-dropdown-menu {
