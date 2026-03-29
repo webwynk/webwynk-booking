@@ -57,7 +57,12 @@ class WWGB_Email_Sender
       $message = nl2br($message);
     }
 
-    $headers = array('Content-Type: text/html; charset=UTF-8');
+    $from_name  = get_bloginfo('name');
+    $from_email = get_option('wwgb_admin_email', get_option('admin_email'));
+    $headers = array(
+      'Content-Type: text/html; charset=UTF-8',
+      'From: ' . $from_name . ' <' . $from_email . '>',
+    );
 
     return wp_mail($booking->email, $subject, $message, $headers);
   }
@@ -67,38 +72,45 @@ class WWGB_Email_Sender
     $handler = new WWGB_Booking_Handler();
     $booking = $handler->get_booking($booking_id);
     
-    if (!$booking || empty($booking->meeting_link)) return false;
+    // get_booking() returns ARRAY_A — use array access throughout
+    if (!$booking || empty($booking['meeting_link'])) return false;
     
     $subject = get_option('wwgb_meeting_email_subject', 'Your Meeting Link is Ready - WebWynk');
-    
     $template = get_option('wwgb_meeting_email_template', $this->get_default_meeting_email_template());
     
-    // Format the client's local time explicitly
-    $client_tz_string = $booking->timezone ? $booking->timezone : 'Asia/Kolkata';
-    $client_tz = new DateTimeZone($client_tz_string);
-    $booking_datetime = new DateTime($booking->booking_date . ' ' . $booking->booking_time, $client_tz);
+    $client_tz_string = !empty($booking['timezone']) ? $booking['timezone'] : 'Asia/Kolkata';
+    try {
+      $client_tz = new DateTimeZone($client_tz_string);
+    } catch (Exception $e) {
+      $client_tz = new DateTimeZone('Asia/Kolkata');
+    }
+    $booking_datetime = new DateTime($booking['booking_date'] . ' ' . $booking['booking_time'], $client_tz);
     
     $placeholders = array(
-        '{first_name}' => $booking->first_name,
-        '{last_name}' => $booking->last_name,
-        '{date}' => $booking_datetime->format('l, F j, Y'),
-        '{time}' => $booking_datetime->format('g:i A'),
-        '{timezone}' => $client_tz_string,
-        '{phone}' => $booking->phone,
-        '{message}' => $booking->message,
-        '{email}' => $booking->email,
-        '{meeting_link}' => '<a href="' . esc_url($booking->meeting_link) . '" style="color:#8169F1;">' . esc_html($booking->meeting_link) . '</a>'
+        '{first_name}'   => $booking['first_name'],
+        '{last_name}'    => $booking['last_name'],
+        '{date}'         => $booking_datetime->format('l, F j, Y'),
+        '{time}'         => $booking_datetime->format('g:i A'),
+        '{timezone}'     => $client_tz_string,
+        '{phone}'        => $booking['phone'],
+        '{message}'      => $booking['message'],
+        '{email}'        => $booking['email'],
+        '{meeting_link}' => '<a href="' . esc_url($booking['meeting_link']) . '" style="color:#8169F1;">' . esc_html($booking['meeting_link']) . '</a>'
     );
     
     $message = str_replace(array_keys($placeholders), array_values($placeholders), $template);
-    
     if (strip_tags($message) == $message) {
         $message = nl2br($message);
     }
     
-    $headers = array('Content-Type: text/html; charset=UTF-8');
+    $from_name  = get_bloginfo('name');
+    $from_email = get_option('wwgb_admin_email', get_option('admin_email'));
+    $headers = array(
+        'Content-Type: text/html; charset=UTF-8',
+        'From: ' . $from_name . ' <' . $from_email . '>',
+    );
     
-    return wp_mail($booking->email, $subject, $message, $headers);
+    return wp_mail($booking['email'], $subject, $message, $headers);
   }
 
   public function send_admin_notification($booking_id)
@@ -143,7 +155,12 @@ class WWGB_Email_Sender
       $message = nl2br($message);
     }
 
-    $headers = array('Content-Type: text/html; charset=UTF-8');
+    $from_name  = get_bloginfo('name');
+    $from_email = get_option('wwgb_admin_email', get_option('admin_email'));
+    $headers = array(
+      'Content-Type: text/html; charset=UTF-8',
+      'From: ' . $from_name . ' <' . $from_email . '>',
+    );
 
     return wp_mail($admin_email, $subject, $message, $headers);
   }

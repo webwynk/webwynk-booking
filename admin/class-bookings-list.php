@@ -109,27 +109,43 @@ class WWGB_Bookings_List extends WP_List_Table {
         
         $this->_column_headers = array($this->get_columns(), array(), array());
         
-        // Search
         $search = isset($_REQUEST['s']) ? sanitize_text_field($_REQUEST['s']) : '';
-        $where = '';
+
+        // Total items
         if ($search) {
-            $where = $wpdb->prepare(
-                "WHERE first_name LIKE %s OR last_name LIKE %s OR email LIKE %s",
-                '%' . $search . '%', '%' . $search . '%', '%' . $search . '%'
+            $total_items = $wpdb->get_var(
+                $wpdb->prepare(
+                    "SELECT COUNT(*) FROM {$table_name} WHERE first_name LIKE %s OR last_name LIKE %s OR email LIKE %s",
+                    '%' . $wpdb->esc_like($search) . '%',
+                    '%' . $wpdb->esc_like($search) . '%',
+                    '%' . $wpdb->esc_like($search) . '%'
+                )
+            );
+            
+            // Get items
+            $this->items = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT * FROM {$table_name} WHERE first_name LIKE %s OR last_name LIKE %s OR email LIKE %s ORDER BY created_at DESC LIMIT %d OFFSET %d",
+                    '%' . $wpdb->esc_like($search) . '%',
+                    '%' . $wpdb->esc_like($search) . '%',
+                    '%' . $wpdb->esc_like($search) . '%',
+                    $per_page, $offset
+                ),
+                ARRAY_A
+            );
+        } else {
+            $total_items = $wpdb->get_var(
+                $wpdb->prepare("SELECT COUNT(*) FROM {$table_name}")
+            );
+            
+            $this->items = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT * FROM {$table_name} ORDER BY created_at DESC LIMIT %d OFFSET %d",
+                    $per_page, $offset
+                ),
+                ARRAY_A
             );
         }
-        
-        // Total items
-        $total_items = $wpdb->get_var("SELECT COUNT(*) FROM {$table_name} {$where}");
-        
-        // Get items
-        $this->items = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT * FROM {$table_name} {$where} ORDER BY created_at DESC LIMIT %d OFFSET %d",
-                $per_page, $offset
-            ),
-            ARRAY_A
-        );
         
         $this->set_pagination_args(array(
             'total_items' => $total_items,

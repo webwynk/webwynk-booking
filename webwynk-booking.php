@@ -3,7 +3,7 @@
  * Plugin Name:       Webwynk Booking
  * Plugin URI:        https://webwynk.com
  * Description:       Premium glassmorphism-style consultation booking system with 2-step flow, auto timezone detection, and admin dashboard.
- * Version:           1.0.0
+ * Version:           1.0.3
  * Author:            Hasanur Jaman
  * Author URI:        https://webwynk.com
  * License:           GPL v2 or later
@@ -141,10 +141,10 @@ class WebWynk_Booking {
     }
     
     public function ajax_detect_timezone() {
-        wp_send_json_success(array(
-            'timezone' => 'Asia/Kolkata',
-            'label'    => 'Asia/Calcutta (Auto-detected)'
-        ));
+        // JS already uses Intl.DateTimeFormat() as primary — this is a rare fallback.
+        // We cannot detect timezone server-side without a 3rd-party IP API.
+        // Return an error so JS keeps its own Intl-detected timezone value.
+        wp_send_json_error('client-side detection preferred');
     }
 }
 

@@ -368,10 +368,15 @@ class WWGB_Admin_Menu {
         if ($result !== false) {
             // Trigger the meeting link email
             $email_sender = new WWGB_Email_Sender();
-            $email_sender->send_meeting_link($id);
-            wp_send_json_success('Meeting link saved and email sent');
+            $sent = $email_sender->send_meeting_link($id);
+            if ($sent) {
+                wp_send_json_success('Meeting link saved and email sent');
+            } else {
+                wp_send_json_success('Meeting link saved but email failed. Check Email Templates settings.');
+            }
         } else {
-            wp_send_json_error('Failed to save meeting link');
+            $db_error = $wpdb->last_error ? $wpdb->last_error : 'Unknown DB error. The meeting_link column may not exist — run: ALTER TABLE wp_webwynk_bookings ADD COLUMN meeting_link VARCHAR(255) DEFAULT NULL;';
+            wp_send_json_error($db_error);
         }
     }
 }
