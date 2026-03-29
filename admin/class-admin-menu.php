@@ -82,9 +82,9 @@ class WWGB_Admin_Menu {
         </div>
         
         <!-- Booking Details Modal -->
-        <div id="booking-modal" class="webwynk-modal" style="display:none;">
-            <div class="webwynk-modal-content">
-                <span class="webwynk-close">&times;</span>
+        <div id="booking-modal" class="wwgb-modal" style="display:none;">
+            <div class="wwgb-modal-content">
+                <span class="wwgb-close">&times;</span>
                 <h2><?php _e('Booking Details', 'webwynk-booking'); ?></h2>
                 <div id="booking-details"></div>
             </div>
