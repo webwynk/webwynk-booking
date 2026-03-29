@@ -48,9 +48,20 @@ class WWGB_Bookings_List extends WP_List_Table {
     }
     
     public function column_datetime($item) {
-        $date = date('M j, Y', strtotime($item['booking_date']));
-        $time = date('H:i', strtotime($item['booking_time']));
-        return esc_html("$date at $time");
+        $local_date = date('M j, Y', strtotime($item['booking_date']));
+        $local_time = date('H:i', strtotime($item['booking_time']));
+        $tz = esc_html($item['timezone']);
+        
+        $output = "<strong>$local_date at $local_time</strong><br>";
+        $output .= "<small>$tz</small>";
+        
+        if (!empty($item['ist_date']) && !empty($item['ist_time']) && $item['ist_date'] !== '0000-00-00') {
+            $ist_date = date('M j, Y', strtotime($item['ist_date']));
+            $ist_time = date('H:i', strtotime($item['ist_time']));
+            $output .= "<br><span style='color: #d63384; font-size: 0.9em; margin-top: 4px; display: inline-block;'>IST: $ist_date at $ist_time</span>";
+        }
+        
+        return $output;
     }
     
     public function column_status($item) {

@@ -30,6 +30,8 @@ class WWGB_Database {
             message text,
             booking_date date NOT NULL,
             booking_time time NOT NULL,
+            ist_date date DEFAULT NULL,
+            ist_time time DEFAULT NULL,
             timezone varchar(100) DEFAULT 'Asia/Kolkata',
             status varchar(20) DEFAULT 'confirmed',
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
