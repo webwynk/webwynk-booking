@@ -47,7 +47,12 @@ class WWGB_Email_Sender {
         
         $message = str_replace(array_keys($placeholders), array_values($placeholders), $template);
         
-        $headers = array('Content-Type: text/plain; charset=UTF-8');
+        // Ensure legacy plain-text templates render line breaks correctly in HTML render
+        if (strip_tags($message) == $message) {
+            $message = nl2br($message);
+        }
+        
+        $headers = array('Content-Type: text/html; charset=UTF-8');
         
         return wp_mail($booking->email, $subject, $message, $headers);
     }
@@ -88,24 +93,100 @@ class WWGB_Email_Sender {
         
         $message = str_replace(array_keys($placeholders), array_values($placeholders), $template);
         
-        $headers = array('Content-Type: text/plain; charset=UTF-8');
+        if (strip_tags($message) == $message) {
+            $message = nl2br($message);
+        }
+        
+        $headers = array('Content-Type: text/html; charset=UTF-8');
         
         return wp_mail($admin_email, $subject, $message, $headers);
     }
     
     private function get_default_user_template() {
-        return "Hello {first_name},
+        return '<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 
-Your consultation has been confirmed!
+<body style="margin:0; padding:0; background-color:#f5f6fb; font-family:Arial, sans-serif;">
 
-📅 Date: {date}
-⏰ Time: {time}
-🌍 Timezone: {timezone}
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f5f6fb;">
+<tr>
+<td align="center">
 
-If you need to reschedule, please contact us as soon as possible.
+<table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color:#ffffff;">
 
-Best regards,
-WebWynk Team";
+  <!-- Header -->
+  <tr>
+    <td align="center" style="background-color:#efebfc; padding:25px;">
+      <img src="https://webwynk.webwynk.com/wp-content/uploads/2026/03/webwynk-logo-email.jpg"
+           alt="WebWynk"
+           width="140"
+           style="display:block; border:0;">
+    </td>
+  </tr>
+
+  <!-- Body -->
+  <tr>
+    <td style="padding:25px; color:#333333; font-size:15px; line-height:1.6;">
+
+      <p style="margin:0 0 10px 0;">Hi {first_name},</p>
+
+      <p style="margin:0 0 10px 0;">
+        Thank you for booking your consultation.
+      </p>
+
+      <p style="margin:0 0 10px 0;">
+        Your consultation has been scheduled successfully. You\'ll receive a confirmation email with the meeting link shortly.
+      </p>
+
+      <p style="margin:0 0 10px 0;">
+        📅 Date: {date}<br>
+        ⏰ Time: {time}<br>
+        🌍 Timezone: {timezone}
+      </p>
+
+      <p style="margin:0 0 15px 0;">
+        If you need to reschedule, please contact us as soon as possible.
+      </p>
+
+      <p style="margin:15px 0 0 0;">
+        Regards,<br>
+        <strong style="color:#8169F1;">WebWynk Team</strong>
+      </p>
+
+    </td>
+  </tr>
+
+  <!-- Footer -->
+  <tr>
+    <td align="center" style="background-color:#110645; padding:15px; font-size:13px; color:#ffffff;">
+
+      <p style="margin:5px 0; color:#ffffff;">Connect With Us</p>
+
+      <p style="margin:5px 0;">
+        <a href="https://wa.me/919083895364" style="color:#8169F1; text-decoration:none;">WhatsApp</a> |
+        <a href="mailto:contact@webwynk.com" style="color:#8169F1; text-decoration:none;">Email</a> |
+        <a href="https://webwynk.com" style="color:#8169F1; text-decoration:none;">Website</a>
+      </p>
+
+      <p style="margin-top:10px; font-size:12px; color:#ffffff;">
+        © 2026 WebWynk. All rights reserved.
+      </p>
+
+    </td>
+  </tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>';
     }
     
     private function get_default_admin_template() {
