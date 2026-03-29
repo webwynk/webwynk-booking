@@ -435,11 +435,12 @@
 .wwgb-phone-input {
     display: flex;
     gap: 0.5rem;
+    align-items: stretch;
 }
 
 .wwgb-country-select {
-    flex: 0 0 100px;
-    padding: 0.85rem 0.5rem !important;
+    flex: 0 0 105px;
+    padding: 0 0.5rem !important;
 }
 
 #booking-form .wwgb-phone-input input {

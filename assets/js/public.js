@@ -55,6 +55,7 @@
                         );
                         if (optionMatch) {
                             countrySelect.value = optionMatch.value;
+                            updatePhonePlaceholder();
                         }
                     }
                 }
@@ -109,6 +110,38 @@
         if (elements.bookingForm) {
             elements.bookingForm.addEventListener('submit', submitBooking);
         }
+        
+        const countrySelect = document.querySelector('select[name="country_code"]');
+        if (countrySelect) {
+            countrySelect.addEventListener('change', updatePhonePlaceholder);
+        }
+    }
+
+    function updatePhonePlaceholder() {
+        const select = document.querySelector('select[name="country_code"]');
+        const input = document.querySelector('input[name="phone"]');
+        if (!select || !input) return;
+
+        const placeholders = {
+            'US +1': '(555) 000-0000',
+            'CA +1': '(555) 000-0000',
+            'UK +44': '07000 000000',
+            'AU +61': '0400 000 000',
+            'IN +91': '98000 00000',
+            'AE +971': '50 000 0000',
+            'PK +92': '300 0000000',
+            'BD +880': '01700-000000',
+            'IL +972': '050-000-0000',
+            'DE +49': '0151 2345678',
+            'FR +33': '06 12 34 56 78',
+            'JP +81': '090-1234-5678',
+            'SG +65': '8123 4567',
+            'NZ +64': '021 123 4567',
+            'ZA +27': '082 123 4567'
+        };
+
+        const selectedText = select.options[select.selectedIndex].text;
+        input.placeholder = placeholders[selectedText] || 'Enter phone number';
     }
 
     // Calendar functions
