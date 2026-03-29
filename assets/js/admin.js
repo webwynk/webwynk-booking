@@ -3,7 +3,8 @@
  */
 jQuery(document).ready(function($) {
     // View booking details
-    $(document).on('click', '.view-booking', function() {
+    $(document).on('click', '.view-booking', function(e) {
+        e.preventDefault();
         var bookingId = $(this).data('id');
         
         $.ajax({
@@ -44,7 +45,8 @@ jQuery(document).ready(function($) {
     });
     
     // Update status
-    $(document).on('click', '.cancel-booking, .confirm-booking', function() {
+    $(document).on('click', '.cancel-booking, .confirm-booking', function(e) {
+        e.preventDefault();
         var bookingId = $(this).data('id');
         var newStatus = $(this).hasClass('cancel-booking') ? 'cancelled' : 'confirmed';
         var $btn = $(this);
@@ -67,7 +69,8 @@ jQuery(document).ready(function($) {
     });
     
     // Delete booking
-    $(document).on('click', '.delete-booking', function() {
+    $(document).on('click', '.delete-booking', function(e) {
+        e.preventDefault();
         if (!confirm('Are you sure you want to delete this booking?')) return;
         
         var bookingId = $(this).data('id');
