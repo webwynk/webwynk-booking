@@ -413,18 +413,27 @@
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
+        .then(async response => {
+            const rawText = await response.text();
+            try {
+                return JSON.parse(rawText);
+            } catch (e) {
+                console.error("Backend returned invalid JSON:", rawText);
+                throw new Error("Server error: " + rawText.substring(0, 100));
+            }
+        })
         .then(data => {
             if (data.success) {
                 // We pass in the display metrics so the success screen looks perfect for the user
                 data.data.display_time = state.selectedTimeDisplay;
                 showSuccess(data.data);
             } else {
-                showError(form, data.data.message || 'An error occurred. Please try again.');
+                showError(form, data.data ? data.data.message : (data.message || 'An error occurred. Please try again.'));
             }
         })
-        .catch(() => {
-            showError(form, 'Network error. Please try again.');
+        .catch(err => {
+            console.error(err);
+            showError(form, 'Booking Error - Check Console. (Did you reactivate the plugin?)');
         })
         .finally(() => {
             submitBtn.disabled = false;
