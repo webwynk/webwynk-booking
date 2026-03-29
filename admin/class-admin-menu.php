@@ -191,9 +191,9 @@ class WWGB_Admin_Menu {
     public function render_emails_page() {
         if (isset($_POST['wwgb_save_emails']) && check_admin_referer('wwgb_emails')) {
             update_option('wwgb_user_email_subject', sanitize_text_field($_POST['user_email_subject']));
-            update_option('wwgb_user_email_template', wp_kses_post($_POST['user_email_template']));
+            update_option('wwgb_user_email_template', wp_unslash($_POST['user_email_template']));
             update_option('wwgb_admin_email_subject', sanitize_text_field($_POST['admin_email_subject']));
-            update_option('wwgb_admin_email_template', wp_kses_post($_POST['admin_email_template']));
+            update_option('wwgb_admin_email_template', wp_unslash($_POST['admin_email_template']));
             echo '<div class="notice notice-success"><p>Email templates saved!</p></div>';
         }
         ?>
