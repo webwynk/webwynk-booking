@@ -438,9 +438,87 @@
     align-items: stretch;
 }
 
-.wwgb-country-select {
-    flex: 0 0 105px;
-    padding: 0 0.5rem !important;
+.wwgb-custom-select-wrapper {
+    position: relative;
+    flex: 0 0 115px;
+}
+
+.wwgb-custom-select-trigger {
+    background-color: var(--wwgb-input-bg);
+    border: 1px solid var(--wwgb-input-border);
+    color: var(--wwgb-text-main);
+    padding: 0 0.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    height: 100%;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+.wwgb-custom-select-trigger:focus, .wwgb-custom-select-trigger.active {
+    border-color: var(--wwgb-primary);
+    box-shadow: 0 0 0 2px rgba(129, 105, 241, 0.2);
+    background: rgba(129, 105, 241, 0.05);
+}
+
+.wwgb-custom-select-trigger img {
+    width: 20px;
+    height: auto;
+    border-radius: 2px;
+}
+
+.wwgb-custom-select-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 140px;
+    max-height: 200px;
+    overflow-y: auto;
+    background: var(--wwgb-bg-color);
+    border: 1px solid var(--wwgb-input-border);
+    border-radius: 8px;
+    z-index: 10;
+    margin-top: 4px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.wwgb-custom-select-options.hidden {
+    display: none;
+}
+
+.wwgb-custom-option {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: var(--wwgb-text-main);
+    transition: background 0.2s;
+}
+
+.wwgb-custom-option:hover {
+    background: rgba(129, 105, 241, 0.2);
+    color: var(--wwgb-primary);
+}
+
+.wwgb-custom-option img {
+    width: 20px;
+    height: auto;
+    border-radius: 2px;
+}
+
+/* Custom scrollbar for options */
+.wwgb-custom-select-options::-webkit-scrollbar {
+    width: 4px;
+}
+.wwgb-custom-select-options::-webkit-scrollbar-thumb {
+    background: var(--wwgb-input-border);
+    border-radius: 4px;
 }
 
 #booking-form .wwgb-phone-input input {

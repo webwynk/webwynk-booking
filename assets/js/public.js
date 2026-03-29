@@ -35,6 +35,7 @@
 
     // Initialize
     function init() {
+        setupCustomSelect();
         detectTimezone();
         detectCountryCode();
         renderCalendar();
@@ -46,16 +47,18 @@
         fetch('https://ipapi.co/json/')
             .then(response => response.json())
             .then(data => {
-                if (data && data.country_calling_code) {
-                    const countrySelect = document.querySelector('select[name="country_code"]');
-                    if (countrySelect) {
-                        const code = data.country_calling_code;
-                        const optionMatch = Array.from(countrySelect.options).find(opt => 
-                            opt.value === code || opt.value === '+' + code.replace('+', '')
-                        );
-                        if (optionMatch) {
-                            countrySelect.value = optionMatch.value;
-                            updatePhonePlaceholder();
+                if (data && data.country) {
+                    const countryIso = data.country;
+                    const code = data.country_calling_code;
+                    const optionsPanel = document.getElementById('wwgb-country-options');
+                    if (optionsPanel) {
+                        const option = optionsPanel.querySelector(`.wwgb-custom-option[data-country="${countryIso}"]`);
+                        if (option) {
+                            option.click();
+                        } else if (code) {
+                            const fallback = optionsPanel.querySelector(`.wwgb-custom-option[data-value="${code}"]`) || 
+                                          optionsPanel.querySelector(`.wwgb-custom-option[data-value="+${code.replace('+','')}"]`);
+                            if (fallback) fallback.click();
                         }
                     }
                 }
@@ -110,17 +113,59 @@
         if (elements.bookingForm) {
             elements.bookingForm.addEventListener('submit', submitBooking);
         }
-        
-        const countrySelect = document.querySelector('select[name="country_code"]');
-        if (countrySelect) {
-            countrySelect.addEventListener('change', updatePhonePlaceholder);
-        }
     }
 
-    function updatePhonePlaceholder() {
-        const select = document.querySelector('select[name="country_code"]');
+    // Setup Custom Country Select
+    function setupCustomSelect() {
+        const trigger = document.getElementById('wwgb-country-trigger');
+        const optionsPanel = document.getElementById('wwgb-country-options');
+        const hiddenInput = document.querySelector('input[name="country_code"]');
+        if (!trigger || !optionsPanel || !hiddenInput) return;
+
+        // Toggle dropdown
+        trigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            optionsPanel.classList.toggle('hidden');
+            trigger.classList.toggle('active');
+        });
+
+        // Handle selection
+        const options = optionsPanel.querySelectorAll('.wwgb-custom-option');
+        options.forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const value = this.getAttribute('data-value');
+                const countryCode = this.getAttribute('data-country');
+                
+                // Update trigger
+                trigger.innerHTML = this.innerHTML;
+                
+                // Update hidden input
+                hiddenInput.value = value;
+                
+                // Close dropdown
+                optionsPanel.classList.add('hidden');
+                trigger.classList.remove('active');
+                
+                updatePhonePlaceholderCustom(countryCode);
+            });
+        });
+
+        // Close on outside click
+        document.addEventListener('click', function(e) {
+            if (!trigger.contains(e.target) && !optionsPanel.contains(e.target)) {
+                optionsPanel.classList.add('hidden');
+                trigger.classList.remove('active');
+            }
+        });
+
+        // Initial placeholder setup
+        updatePhonePlaceholderCustom('US');
+    }
+
+    function updatePhonePlaceholderCustom(countryCode) {
         const input = document.querySelector('input[name="phone"]');
-        if (!select || !input) return;
+        if (!input) return;
 
         const placeholders = {
             'US': '(555) 000-0000',
@@ -140,9 +185,7 @@
             'ZA': '082 123 4567'
         };
 
-        const selectedText = select.options[select.selectedIndex].text;
-        const countryKey = Object.keys(placeholders).find(key => selectedText.includes(key));
-        input.placeholder = countryKey ? placeholders[countryKey] : 'Enter phone number';
+        input.placeholder = placeholders[countryCode] || 'Enter phone number';
     }
 
     // Calendar functions

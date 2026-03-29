@@ -120,24 +120,30 @@ class WWGB_Shortcode {
                                 </div>
                                 <div class="wwgb-form-group">
                                     <label>Phone</label>
-                                    <div class="wwgb-phone-input">
-                                        <select name="country_code" class="wwgb-country-select">
-                                            <option value="+1">🇺🇸 US +1</option>
-                                            <option value="+1">🇨🇦 CA +1</option>
-                                            <option value="+44">🇬🇧 UK +44</option>
-                                            <option value="+61">🇦🇺 AU +61</option>
-                                            <option value="+91">🇮🇳 IN +91</option>
-                                            <option value="+971">🇦🇪 AE +971</option>
-                                            <option value="+92">🇵🇰 PK +92</option>
-                                            <option value="+880">🇧🇩 BD +880</option>
-                                            <option value="+972">🇮🇱 IL +972</option>
-                                            <option value="+49">🇩🇪 DE +49</option>
-                                            <option value="+33">🇫🇷 FR +33</option>
-                                            <option value="+81">🇯🇵 JP +81</option>
-                                            <option value="+65">🇸🇬 SG +65</option>
-                                            <option value="+64">🇳🇿 NZ +64</option>
-                                            <option value="+27">🇿🇦 ZA +27</option>
-                                        </select>
+                                    <div class="wwgb-phone-input" id="wwgb-phone-container">
+                                        <input type="hidden" name="country_code" value="+1">
+                                        <div class="wwgb-custom-select-wrapper">
+                                            <div class="wwgb-custom-select-trigger" id="wwgb-country-trigger">
+                                                <img src="https://flagcdn.com/w20/us.png" alt="US"> <span>US +1</span>
+                                            </div>
+                                            <div class="wwgb-custom-select-options hidden" id="wwgb-country-options">
+                                                <div class="wwgb-custom-option" data-value="+1" data-country="US"><img src="https://flagcdn.com/w20/us.png" alt="US"> US +1</div>
+                                                <div class="wwgb-custom-option" data-value="+1" data-country="CA"><img src="https://flagcdn.com/w20/ca.png" alt="CA"> CA +1</div>
+                                                <div class="wwgb-custom-option" data-value="+44" data-country="UK"><img src="https://flagcdn.com/w20/gb.png" alt="UK"> UK +44</div>
+                                                <div class="wwgb-custom-option" data-value="+61" data-country="AU"><img src="https://flagcdn.com/w20/au.png" alt="AU"> AU +61</div>
+                                                <div class="wwgb-custom-option" data-value="+91" data-country="IN"><img src="https://flagcdn.com/w20/in.png" alt="IN"> IN +91</div>
+                                                <div class="wwgb-custom-option" data-value="+971" data-country="AE"><img src="https://flagcdn.com/w20/ae.png" alt="AE"> AE +971</div>
+                                                <div class="wwgb-custom-option" data-value="+92" data-country="PK"><img src="https://flagcdn.com/w20/pk.png" alt="PK"> PK +92</div>
+                                                <div class="wwgb-custom-option" data-value="+880" data-country="BD"><img src="https://flagcdn.com/w20/bd.png" alt="BD"> BD +880</div>
+                                                <div class="wwgb-custom-option" data-value="+972" data-country="IL"><img src="https://flagcdn.com/w20/il.png" alt="IL"> IL +972</div>
+                                                <div class="wwgb-custom-option" data-value="+49" data-country="DE"><img src="https://flagcdn.com/w20/de.png" alt="DE"> DE +49</div>
+                                                <div class="wwgb-custom-option" data-value="+33" data-country="FR"><img src="https://flagcdn.com/w20/fr.png" alt="FR"> FR +33</div>
+                                                <div class="wwgb-custom-option" data-value="+81" data-country="JP"><img src="https://flagcdn.com/w20/jp.png" alt="JP"> JP +81</div>
+                                                <div class="wwgb-custom-option" data-value="+65" data-country="SG"><img src="https://flagcdn.com/w20/sg.png" alt="SG"> SG +65</div>
+                                                <div class="wwgb-custom-option" data-value="+64" data-country="NZ"><img src="https://flagcdn.com/w20/nz.png" alt="NZ"> NZ +64</div>
+                                                <div class="wwgb-custom-option" data-value="+27" data-country="ZA"><img src="https://flagcdn.com/w20/za.png" alt="ZA"> ZA +27</div>
+                                            </div>
+                                        </div>
                                         <input type="tel" name="phone" required placeholder="(555) 000-0000">
                                     </div>
                                 </div>
