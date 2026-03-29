@@ -44,37 +44,64 @@
 
     // Detect country code based on IP
     function detectCountryCode() {
+        const CACHE_KEY = 'wwgb_ip_data';
+        const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+        // Try to use cached data first (saves API quota for returning visitors)
+        try {
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) {
+                const parsed = JSON.parse(cached);
+                if (parsed && parsed.expires > Date.now()) {
+                    applyIpData(parsed.data);
+                    return; // Skip API call entirely
+                }
+            }
+        } catch(e) {}
+
+        // No valid cache — call the API
         fetch('https://ipapi.co/json/')
             .then(response => response.json())
             .then(data => {
-                if (data) {
-                    // Force timezone to match IP geolocation
-                    if (data.timezone) {
-                        state.timezone = data.timezone;
-                        const tzDisplay = document.getElementById('user-timezone');
-                        if (tzDisplay) {
-                            tzDisplay.textContent = data.timezone.replace('_', ' ');
-                        }
-                    }
-
-                    if (data.country) {
-                        const countryIso = data.country;
-                        const code = data.country_calling_code;
-                        const optionsPanel = document.getElementById('wwgb-country-options');
-                        if (optionsPanel) {
-                            const option = optionsPanel.querySelector(`.wwgb-custom-option[data-country="${countryIso}"]`);
-                            if (option) {
-                                option.click();
-                            } else if (code) {
-                                const fallback = optionsPanel.querySelector(`.wwgb-custom-option[data-value="${code}"]`) || 
-                                              optionsPanel.querySelector(`.wwgb-custom-option[data-value="+${code.replace('+','')}"]`);
-                                if (fallback) fallback.click();
-                            }
-                        }
-                    }
+                if (data && !data.error) {
+                    // Cache for 24 hours
+                    try {
+                        localStorage.setItem(CACHE_KEY, JSON.stringify({
+                            expires: Date.now() + CACHE_TTL,
+                            data: data
+                        }));
+                    } catch(e) {}
+                    applyIpData(data);
                 }
             })
             .catch(e => console.warn('Could not detect country code:', e));
+    }
+
+    // Apply IP geolocation data to the form
+    function applyIpData(data) {
+        if (!data) return;
+        if (data.timezone) {
+            state.timezone = data.timezone;
+            const tzDisplay = document.getElementById('user-timezone');
+            if (tzDisplay) {
+                tzDisplay.textContent = data.timezone.replace('_', ' ');
+            }
+        }
+        if (data.country) {
+            const countryIso = data.country;
+            const code = data.country_calling_code;
+            const optionsPanel = document.getElementById('wwgb-country-options');
+            if (optionsPanel) {
+                const option = optionsPanel.querySelector(`.wwgb-custom-option[data-country="${countryIso}"]`);
+                if (option) {
+                    option.click();
+                } else if (code) {
+                    const fallback = optionsPanel.querySelector(`.wwgb-custom-option[data-value="${code}"]`) || 
+                                  optionsPanel.querySelector(`.wwgb-custom-option[data-value="+${code.replace('+','')}"]`);
+                    if (fallback) fallback.click();
+                }
+            }
+        }
     }
 
     // Detect timezone
